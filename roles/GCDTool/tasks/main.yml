@@ -1,0 +1,43 @@
+- name: apt install dependencies
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+    - unzip
+
+- name: Download gcd tool
+  get_url: url=http://storage.googleapis.com/gcd/tools/{{ item }}.zip dest=/home/vagrant/{{ item }}.zip
+  sudo: yes
+  sudo_user: vagrant
+  with_items:
+    - gcd-v1beta2-rev1-2.1.1
+
+- name: does gcdtool exist?
+  stat: path=/home/vagrant/gcd-v1beta2-rev1-2.1.1
+  register: do_unzip
+
+- debug: var=do_unzip
+
+- name: unarchive gcd tool
+  shell: 'unzip /home/vagrant/{{ item }}.zip'
+  sudo: yes
+  sudo_user: vagrant
+  with_items:
+    - gcd-v1beta2-rev1-2.1.1
+  when: do_unzip.stat.exists == False
+
+- name: does radar exist?
+  stat: path=/home/vagrant/{{ datastore_dataset }}
+  register: do_create_ds
+
+- debug: var=do_create_ds
+
+- name: create gcd.sh create
+  shell: '/home/vagrant/{{ item }}/gcd.sh create -d {{ datastore_dataset }} {{ datastore_dataset }}'
+  sudo: yes
+  sudo_user: vagrant
+  when: do_create_ds.stat.exists == False
+  with_items:
+    - gcd-v1beta2-rev1-2.1.1
+
+#- name: set up environment variables (DATASTORE_HOST and DATASTORE_DATASET)
+

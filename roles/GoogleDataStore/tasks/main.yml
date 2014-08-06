@@ -1,0 +1,38 @@
+- name: apt install dependencies
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+    - python-virtualenv
+    - python-dev
+    - libssl-dev
+
+- name: virtualenv gcd
+  shell: 'virtualenv gcd'
+  sudo: yes
+  sudo_user: vagrant
+
+- name: pip install googledatastore
+  shell: '/home/vagrant/gcd/bin/pip install --pre googledatastore'
+  sudo: yes
+  sudo_user: vagrant
+
+- name: Download google-cloud-datastore
+  get_url: url=https://github.com/GoogleCloudPlatform/google-cloud-datastore/archive/{{ item }}.tar.gz dest=/home/vagrant/{{ item }}.tar.gz
+  sudo: yes
+  sudo_user: vagrant
+  with_items:
+    - v1beta2-rev1-2.1.1
+
+- name: unarchive google-cloud-datastore tarball
+  shell: 'tar -C /home/vagrant -xvzf /home/vagrant/{{ item }}.tar.gz'
+  sudo: yes
+  sudo_user: vagrant
+  with_items:
+    - v1beta2-rev1-2.1.1
+
+- name: pip install according to requirements.txt
+  shell: '/home/vagrant/gcd/bin/pip install -r /home/vagrant/{{item}}/python/requirements.txt'
+  sudo: yes
+  sudo_user: vagrant
+  with_items:
+    - google-cloud-datastore-1beta2-rev1-2.1.1

@@ -1,0 +1,18 @@
+- name: Download JDK
+  shell: 'curl -L -C - -b "oraclelicense=accept-securebackup-cookie" {{ jdk_download_url }} > {{ jdk_tar_gz }} creates={{ jdk_tar_gz }}'
+
+- name: unarchive JDK tarball
+  shell: 'tar -C /usr/local/lib -xvzf {{ jdk_tar_gz }} creates=/usr/local/lib/{{ jdk_path }}'
+  sudo: yes
+
+- name: chown of JDK
+  command: 'chown -R root:root /usr/local/lib/{{ jdk_path }}'
+  sudo: yes
+
+- name: Symlink the correct version of java
+  file: src=/usr/local/lib/{{ jdk_path }}/bin/java dest=/usr/bin/java owner=root group=root state=link
+  sudo: yes
+
+- name: Symlink the correct version of javac
+  file: src=/usr/local/lib/{{ jdk_path }}/bin/javac dest=/usr/bin/javac owner=root group=root state=link
+  sudo: yes

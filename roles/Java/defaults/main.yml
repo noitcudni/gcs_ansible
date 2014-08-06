@@ -1,0 +1,6 @@
+jdk_version: '8u11'
+jdk_build: 'b12'
+jdk_filename: "jdk-{{ jdk_version }}-linux-x64.tar.gz"
+jdk_download_url: "http://download.oracle.com/otn-pub/java/jdk/{{ jdk_version }}-{{ jdk_build }}/{{ jdk_filename }}"
+jdk_tar_gz: "/vagrant/{{ jdk_filename }}"
+jdk_path: "jdk1.8.0_11"
