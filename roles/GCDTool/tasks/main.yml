@@ -39,5 +39,12 @@
   with_items:
     - gcd-v1beta2-rev1-2.1.1
 
-#- name: set up environment variables (DATASTORE_HOST and DATASTORE_DATASET)
+- name: set up environment variables (DATASTORE_HOST)
+  lineinfile: dest='/home/vagrant/.bashrc' line='export DATASTORE_HOST=http://localhost:8080'
+  sudo: yes
+  sudo_user: vagrant
 
+- name: set up environment variables (DATASTORE_DATASET)
+  lineinfile: dest='/home/vagrant/.bashrc' line="export DATASTORE_DATASET={{ datastore_dataset }}"
+  sudo: yes
+  sudo_user: vagrant
