@@ -4,3 +4,4 @@
     - { role: Java }
     - { role: GCDTool }
     - { role: GoogleDataStore }
+    - { role: GoogleAppEngine }

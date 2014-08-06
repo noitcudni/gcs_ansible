@@ -1,0 +1,13 @@
+- name: Download google-app-engine
+  get_url: url=https://storage.googleapis.com/appengine-sdks/featured/{{ item }}.zip dest=/home/vagrant/{{ item }}.zip
+  sudo: yes
+  sudo_user: vagrant
+  with_items:
+    - google_appengine
+
+- name: unarchve google-app-engine
+  shell: 'unzip /home/vagrant/{{ item }}.zip'
+  sudo: yes
+  sudo_user: vagrant
+  with_items:
+    - google_appengine
