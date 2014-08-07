@@ -8,8 +8,7 @@
   get_url: url=http://storage.googleapis.com/gcd/tools/{{ item }}.zip dest=/home/vagrant/{{ item }}.zip
   sudo: yes
   sudo_user: vagrant
-  with_items:
-    - gcd-v1beta2-rev1-2.1.1
+  with_items: gcd
 
 - name: does gcdtool exist?
   stat: path=/home/vagrant/gcd-v1beta2-rev1-2.1.1
@@ -21,8 +20,7 @@
   shell: 'unzip /home/vagrant/{{ item }}.zip'
   sudo: yes
   sudo_user: vagrant
-  with_items:
-    - gcd-v1beta2-rev1-2.1.1
+  with_items: gcd
   when: do_unzip.stat.exists == False
 
 - name: does radar exist?
@@ -36,8 +34,7 @@
   sudo: yes
   sudo_user: vagrant
   when: do_create_ds.stat.exists == False
-  with_items:
-    - gcd-v1beta2-rev1-2.1.1
+  with_items: gcd
 
 - name: set up environment variables (DATASTORE_HOST)
   lineinfile: dest='/home/vagrant/.bashrc' line='export DATASTORE_HOST=http://localhost:8080'
