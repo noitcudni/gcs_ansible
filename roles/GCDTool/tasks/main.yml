@@ -2,6 +2,8 @@
   apt: name={{ item }} state=present
   sudo: yes
   with_items:
+    - sshfs
+    - git
     - unzip
 
 - name: Download gcd tool
